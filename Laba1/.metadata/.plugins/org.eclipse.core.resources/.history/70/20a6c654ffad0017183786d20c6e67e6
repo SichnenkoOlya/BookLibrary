@@ -1,0 +1,27 @@
+package bsuir.library.command.impl;
+
+import bsuir.library.command.Command;
+import bsuir.library.command.exception.CommandException;
+import bsuir.library.service.AdminService;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.UserService;
+import bsuir.library.service.exception.ServiceException;
+
+public class AddAdmin implements Command {
+
+
+	@Override
+	public String execute(String request) throws CommandException {
+		ServiceFactory servaceFactory = new ServiceFactory();
+		UserService userServise = servaceFactory.getUserService();
+		String login = request.split("\\|")[1];
+		String password = request.split("\\|")[2];
+		String email = request.split("\\|")[3];
+		try {
+			userServise.addAdmin(login, password, email);
+		} catch (ServiceException e) {
+			return e.getLocalizedMessage();
+		}
+		return null;
+	}
+}

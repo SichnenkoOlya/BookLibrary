@@ -1,0 +1,15 @@
+bsuir.library.command
+bsuir.library.command.exception
+bsuir.library.command.impl
+bsuir.library.controller
+bsuir.library.dao
+bsuir.library.dao.exception
+bsuir.library.dao.impl
+bsuir.library.domain
+bsuir.library.email
+bsuir.library.email.exception
+bsuir.library.main
+bsuir.library.serialization
+bsuir.library.service
+bsuir.library.service.exception
+bsuir.library.service.impl

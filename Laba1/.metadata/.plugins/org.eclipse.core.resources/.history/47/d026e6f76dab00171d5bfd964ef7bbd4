@@ -1,0 +1,69 @@
+package bsuir.library.dao.impl;
+
+import java.util.ArrayList;
+
+import javax.mail.Address;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
+import bsuir.library.bean.Book;
+import bsuir.library.bean.User;
+import bsuir.library.dao.DAOAdmin;
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.email.EmailSender;
+import bsuir.library.serialization.Serialization;
+
+public class DAOAdminImpl extends DAOUserImpl implements DAOAdmin{
+	private ArrayList<Book> listOfBook;
+	private String fileDBName = "DB_FILE.txt";
+	
+	public void deleteBook(Book book) throws DAOException{
+		
+		listOfBook = Serialization.deserialize(listOfBook, fileDBName);
+		boolean isInList = false;
+		for (Book element : listOfBook) {
+			if (element.getName().equalsIgnoreCase(book.getName()) && element.getType() == book.getType()) {
+				listOfBook.remove(book);
+			}
+		}
+		if (isInList) {
+			throw new DAOException("Такой книги нет!");
+		}
+		Serialization.serialize(listOfBook, fileDBName);
+	}
+	
+	
+	public void changeTypeOfBook(Book book, int typeOfBook) throws DAOException{
+        Book oldBook=new Book();
+		listOfBook = Serialization.deserialize(listOfBook, fileDBName);
+		boolean isInList = false;
+		for (Book element : listOfBook) {
+			if (element.getName().equalsIgnoreCase(book.getName())) {
+				element=book;
+			}
+		}
+		if (isInList) {
+			throw new DAOException("Такой книги нет!");
+		}
+		Serialization.serialize(listOfBook, fileDBName);
+	}
+	
+	public void makeANewsletter(Book book) throws DAOException{
+		
+		ArrayList<User> listOfUser = getListOfUser();
+		Address[] adresses = new Address[listOfUser.size()];
+		int i = 0;
+		for (User user : listOfUser) {
+			if (user.getEmail() != null) {
+				try {
+					adresses[i] = new InternetAddress(user.getEmail());
+				} catch (AddressException e) {
+					e.printStackTrace();
+				}
+				i++;
+			}
+		}
+		
+		EmailSender.sendEmail(adresses,book);
+	}
+}

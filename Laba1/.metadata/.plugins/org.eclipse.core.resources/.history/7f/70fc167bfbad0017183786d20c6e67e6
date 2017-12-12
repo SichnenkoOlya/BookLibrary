@@ -1,0 +1,28 @@
+package bsuir.library.command.impl;
+
+import bsuir.library.command.Command;
+import bsuir.library.command.exception.CommandException;
+import bsuir.library.service.AdminService;
+import bsuir.library.service.LibraryService;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.exception.ServiceException;
+
+public class AddDescriptionOfBook implements Command {
+
+	@Override
+	public String execute(String request) throws CommandException {
+
+		ServiceFactory servaceFactory = new ServiceFactory();
+		AdminService adminService;
+		LibraryService libraryService = servaceFactory.getLiraryService();
+		String title = request.split("\\|")[1];
+		String description = request.split("\\|")[2];
+		adminService = servaceFactory.getAdminService();
+		try {
+			adminService.addDescriptionOfBook(libraryService.searchBook(title), description);
+		} catch (ServiceException e) {
+			return e.getLocalizedMessage();
+		}
+		return null;
+	}
+}

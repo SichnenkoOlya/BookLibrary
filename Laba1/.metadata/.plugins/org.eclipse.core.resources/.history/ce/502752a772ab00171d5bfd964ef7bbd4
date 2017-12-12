@@ -1,0 +1,67 @@
+package bsuir.library.dao.impl;
+
+import java.util.ArrayList;
+
+import bsuir.library.bean.User;
+import bsuir.library.dao.DAOUser;
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.serialization.Serialization;
+
+public class DAOUserImpl implements DAOUser {
+
+	protected static ArrayList<User> listOfUser = new ArrayList<User>();
+	protected static String fileDBUser = "DB_FILE_USER.txt";
+
+	@Override
+	public User registerUser(String login, String password,String email) throws DAOException {
+
+		listOfUser = Serialization.deserialize(listOfUser, fileDBUser);
+
+		boolean isInList = false;
+		for (User element : listOfUser) {
+			if (element.getName().equals(login)) {
+				isInList = true;
+			}
+		}
+		if (isInList) {
+			throw new DAOException("Такой логин занят!");
+		}
+		User user = new User();
+		user.setName(login);
+		user.setEmail(email);
+		int hashOfPassword = (login + password).hashCode();
+		user.setPassword(hashOfPassword);
+		listOfUser.add(user);
+		Serialization.serialize(listOfUser, fileDBUser);
+		return user;
+	}
+
+	
+	public ArrayList<User> getListOfUser() throws DAOException {
+
+		listOfUser = Serialization.deserialize(listOfUser, fileDBUser);
+		if (listOfUser.isEmpty()) {
+			throw new DAOException("There is no book in the library!");
+		}
+		return listOfUser;
+
+	}
+
+	@Override
+	public User authenticateUser(String login, String password) throws DAOException {
+		listOfUser = Serialization.deserialize(listOfUser, fileDBUser);
+		boolean isInList = false;
+		User user = new User();
+		for (User element : listOfUser) {
+			if (element.getName().equals(login) && element.getPassword() == (login + password).hashCode()) {
+				isInList = true;
+				user = element;
+			}
+		}
+		if (!isInList) {
+			throw new DAOException("Некорректные данные!");
+		}
+
+		return user;
+	}
+}

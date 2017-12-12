@@ -1,0 +1,23 @@
+1507056954358	Delete element
+1507057107185	Rename type 'UserService'
+1507060305534	Delete element
+1507060357471	Delete element
+1507061368354	Delete element
+1507146811695	Convert local variable 'in' to field
+1507146843597	Convert local variable 'in' to field
+1507146916465	Convert local variable 'in' to field
+1507146939545	Convert local variable 'in' to field
+1507147304709	Convert local variable 'in' to field
+1507147832646	Rename package 'service'
+1507147887710	Rename package 'service.exception'
+1507147903622	Rename package 'service.impl'
+1507147929508	Rename package 'bsuir.library.logic.email'
+1507148939369	Delete element
+1507369685659	Move compilation unit
+1507373320579	Rename local variable 'isEndOsCycle'
+1507389039588	Delete element
+1507391584896	Delete element
+1507392289792	Delete element
+1507393786960	Delete element
+1507404391341	Convert local variable 'in' to field
+1507408679651	Convert local variable 'updatedBook' to field

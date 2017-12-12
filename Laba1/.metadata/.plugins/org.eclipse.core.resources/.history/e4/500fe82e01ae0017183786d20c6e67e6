@@ -1,0 +1,32 @@
+package bsuir.library.command.impl;
+
+import java.util.ArrayList;
+
+import bsuir.library.command.Command;
+import bsuir.library.command.exception.CommandException;
+import bsuir.library.domain.Book;
+import bsuir.library.service.LibraryService;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.exception.ServiceException;
+
+public class DeleteBook implements Command {
+
+	@Override
+	public String execute(String request) throws CommandException {
+
+		ServiceFactory servaceFactory = new ServiceFactory();
+		LibraryService libraryService = servaceFactory.getLiraryService();
+		String title = request.split("\\|")[1];
+		try {
+			ArrayList<Book> listOfBook = libraryService.searchBook(title);
+
+			for (Book book : listOfBook) {
+				libraryService.deleteBook(book);
+			}
+
+		} catch (ServiceException e) {
+			return e.getLocalizedMessage();
+		}
+		return null;
+	}
+}

@@ -1,0 +1,12 @@
+package bsuir.library.dao;
+
+
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.domain.Book;
+
+
+public interface DAOAdmin extends DAOUser {
+	
+
+	 
+}

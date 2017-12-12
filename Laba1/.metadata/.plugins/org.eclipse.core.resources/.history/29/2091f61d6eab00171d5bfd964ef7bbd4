@@ -1,0 +1,14 @@
+package bsuir.library.dao;
+
+import javax.mail.Address;
+
+import bsuir.library.bean.Book;
+import bsuir.library.dao.exception.DAOException;
+
+
+public interface DAOAdmin {
+	 void deleteBook(Book book) throws DAOException;
+	 void changeTypeOfBook(Book book, int typeOfBook) throws DAOException;
+	 void makeANewsletter(Book book) throws DAOException;
+	
+}

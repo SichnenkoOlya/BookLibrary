@@ -1,0 +1,44 @@
+package bsuir.library.command.impl;
+
+import java.util.Scanner;
+
+import bsuir.library.command.Command;
+import bsuir.library.command.exception.CommandException;
+import bsuir.library.service.AdminService;
+import bsuir.library.service.LibraryService;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.exception.ServiceException;
+
+public class AddAdmin implements Command {
+
+	private Scanner in;
+
+	@Override
+	public String execute(String request) throws CommandException {
+
+		in = new Scanner(System.in);
+		ServiceFactory servaceFactory = new ServiceFactory();
+		AdminService adminService;
+        LibraryService libraryService=servaceFactory.getLiraryService();
+		String login = null;
+		String password = null;
+		String email = null;
+		System.out.println("¬ведите ваше им€!");
+		if (in.hasNext())
+			login = in.next();
+		System.out.println("¬ведите ваш пароль!");
+		if (in.hasNext())
+			password = in.next();
+		System.out.println("¬ведите ваш email!");
+		if (in.hasNext())
+			email = in.next();
+		adminService = servaceFactory.getAdminService();
+
+		try {
+			adminService.addAdmin(login, password, email);
+		} catch (ServiceException e) {
+			return e.getLocalizedMessage();
+		}
+		return null;
+	}
+}

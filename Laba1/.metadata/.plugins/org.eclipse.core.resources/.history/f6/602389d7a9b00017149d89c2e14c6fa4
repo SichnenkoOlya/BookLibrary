@@ -1,0 +1,122 @@
+package bsuir.library.dao.impl;
+
+import java.util.ArrayList;
+import java.util.function.Predicate;
+
+import bsuir.library.dao.DAOBook;
+import bsuir.library.dao.DAOFactory;
+import bsuir.library.dao.DAOUser;
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.domain.Book;
+import bsuir.library.domain.TypeBook;
+import bsuir.library.serialization.Serialization;
+import bsuir.library.serialization.exception.SerializationException;
+
+public class DAOBookImpl implements DAOBook {
+
+	private ArrayList<Book> listOfBook=new ArrayList<Book>();
+	private String fileDBName = "DB_FILE.txt";
+
+	public DAOBookImpl() {
+	}
+
+	@Override
+	public void addBook(String title, TypeBook typeOfBook) throws DAOException {
+
+		//try {
+			//listOfBook = Serialization.deserialize(fileDBName);
+			
+		//} catch (SerializationException e) {
+			//throw new DAOException(e.getLocalizedMessage());
+		//}
+		Book book = new Book();
+		book.setName(title);
+		book.setType(typeOfBook);
+		boolean isInList = false;
+		for (Book element : listOfBook) {
+			if (element.getName().equalsIgnoreCase(book.getName()) && element.getType().equals(book.getType())) {
+				isInList = true;
+			}
+		}
+		if (isInList) {
+			throw new DAOException("Такая книга уже есть!");
+		}
+		listOfBook.add(book);
+		try {
+			Serialization.serialize(listOfBook, fileDBName);
+		} catch (SerializationException e) {
+			throw new DAOException(e.getLocalizedMessage());
+		}
+
+	}
+
+	@Override
+	public ArrayList<Book> searchBook(String name) throws DAOException {
+		try {
+			listOfBook = Serialization.deserialize(fileDBName);
+		} catch (SerializationException e) {
+			throw new DAOException("Такая книга уже есть!");
+		}
+		ArrayList<Book> listOfbook = new ArrayList<Book>();
+		for (Book element : listOfBook) {
+			if (element.getName().equalsIgnoreCase(name)) {
+				listOfbook.add(element);
+			}
+		}
+		return listOfbook;
+	}
+	@Override
+	public ArrayList<Book> getListOfBook() throws DAOException {
+		try {
+			listOfBook = Serialization.deserialize(fileDBName);
+		} catch (SerializationException e) {
+			throw new DAOException(e.getLocalizedMessage());
+		}
+		if (listOfBook == null) {
+			throw new DAOException("В библиотеке нет книг!");
+		}
+
+		return listOfBook;
+
+	}
+	
+	@Override
+	public void addDescriptionOfBook(ArrayList<Book> book, String description) throws DAOException {
+		try {
+			listOfBook = Serialization.deserialize(fileDBName);
+		} catch (SerializationException e) {
+			throw new DAOException(e.getLocalizedMessage());
+		}
+		for (Book sBook : book) {
+			for (Book element : listOfBook) {
+				if (element.getName().equalsIgnoreCase(sBook.getName()) && element.getType() == sBook.getType()) {
+					element.setDescription(description);
+					DAOFactory factory=DAOFactory.getInstance();
+					DAOUser user=factory.getUserDAO();
+					user.makeANewsletter(sBook);
+				}
+			}
+		}
+		try {
+			Serialization.serialize(listOfBook, fileDBName);
+		} catch (SerializationException e) {
+			throw new DAOException(e.getLocalizedMessage());
+		}
+	}
+	@Override
+	public void deleteBook(Book book) throws DAOException {
+
+		try {
+			listOfBook = Serialization.deserialize(fileDBName);
+		} catch (SerializationException e) {
+			throw new DAOException(e.getLocalizedMessage());
+		}
+		Predicate<Book> bookPredicate = b -> b.getName().toLowerCase().equals(book.getName().toLowerCase());
+		listOfBook.removeIf(bookPredicate);
+		try {
+			Serialization.serialize(listOfBook, fileDBName);
+		} catch (SerializationException e) {
+			throw new DAOException(e.getLocalizedMessage());
+		}
+	}
+}

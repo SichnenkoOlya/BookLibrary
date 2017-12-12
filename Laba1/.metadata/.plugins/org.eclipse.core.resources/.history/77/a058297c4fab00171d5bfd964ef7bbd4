@@ -1,0 +1,23 @@
+package bsuir.library.command.impl;
+
+import java.util.Scanner;
+
+import bsuir.library.command.Command;
+import bsuir.library.command.exception.CommandException;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.UserService;
+import bsuir.library.service.exception.ServiceException;
+
+public class SendDescriptionToUsers implements Command {
+
+	private Scanner in;
+
+	@Override
+	public String execute(String request) throws CommandException {
+				
+
+
+		return null;
+	}
+
+}

@@ -1,0 +1,10 @@
+package bsuir.library.dao;
+
+import bsuir.library.bean.User;
+import bsuir.library.dao.exception.DAOException;
+
+public interface DAOUser {
+	public User registerUser(String login, String password, String email) throws DAOException;
+
+	public User authenticateUser(String login, String password) throws DAOException;
+}

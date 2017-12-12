@@ -1,0 +1,10 @@
+package bsuir.library.service;
+
+import bsuir.library.domain.Book;
+import bsuir.library.service.exception.ServiceException;
+
+public interface AdminService extends UserService {
+	
+	void addAdmin(String login, String password, String email) throws ServiceException;
+
+}

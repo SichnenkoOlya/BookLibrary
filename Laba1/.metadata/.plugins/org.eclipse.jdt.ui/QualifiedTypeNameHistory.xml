@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.util.Properties"/>
+<fullyQualifiedTypeName name="javax.mail.Message"/>
+<fullyQualifiedTypeName name="javax.mail.MessagingException"/>
+<fullyQualifiedTypeName name="javax.mail.Part"/>
+<fullyQualifiedTypeName name="javax.mail.PasswordAuthentication"/>
+<fullyQualifiedTypeName name="javax.mail.AuthenticationFailedException"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="bsuir.library.logic.email.EmailSender"/>
+<fullyQualifiedTypeName name="javax.activation.DataSource"/>
+<fullyQualifiedTypeName name="javax.activation.FileDataSource"/>
+<fullyQualifiedTypeName name="javax.activation.DataHandler"/>
+<fullyQualifiedTypeName name="bsuir.library.command.exception.CommandException"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="bsuir.library.command.Command"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="bsuir.library.command.impl.AddNewBook"/>
+<fullyQualifiedTypeName name="bsuir.library.command.impl.Registration"/>
+<fullyQualifiedTypeName name="bsuir.library.command.impl.Authentication"/>
+<fullyQualifiedTypeName name="bsuir.library.email.EmailSender"/>
+<fullyQualifiedTypeName name="bsuir.library.bean.Book"/>
+<fullyQualifiedTypeName name="bsuir.library.bean.TypeBook"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="bsuir.library.service.UserService"/>
+<fullyQualifiedTypeName name="bsuir.library.command.impl.IsAdmin"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="bsuir.library.email.exception.EmailException"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="bsuir.library.dao.DAOFactory"/>
+<fullyQualifiedTypeName name="bsuir.library.dao.DAOUser"/>
+</qualifiedTypeNameHistroy>

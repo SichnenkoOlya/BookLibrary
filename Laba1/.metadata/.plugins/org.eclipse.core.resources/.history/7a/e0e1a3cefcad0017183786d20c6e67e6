@@ -1,0 +1,40 @@
+package bsuir.library.service.impl;
+
+import java.util.ArrayList;
+
+import bsuir.library.dao.DAOAdmin;
+import bsuir.library.dao.DAOFactory;
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.domain.Book;
+import bsuir.library.service.AdminService;
+import bsuir.library.service.exception.ServiceException;
+
+public class AdminServiceImpl extends UserServiceImpl implements AdminService {
+
+
+	@Override
+	public void changeTypeOfBook(Book book, int typeOfBook) throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOAdmin adminDAO = daoFactory.getAdminDAO();
+
+		try {
+			adminDAO.changeTypeOfBook(book, typeOfBook);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public void addAdmin(String login, String password,String email) throws ServiceException{
+		
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOAdmin adminDAO = daoFactory.getAdminDAO();
+
+		try {
+			adminDAO.addAdmin(login, password, email);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+	
+}

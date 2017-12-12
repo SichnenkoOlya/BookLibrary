@@ -1,0 +1,11 @@
+package bsuir.library.dao;
+
+import bsuir.library.bean.Book;
+import bsuir.library.dao.exception.DAOException;
+
+public interface DAOBook {
+	
+	public void addBook(String title, int typeOfBook) throws DAOException;
+	public Book searchBook(String name) throws DAOException;
+	
+}

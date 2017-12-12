@@ -1,0 +1,216 @@
+package bsuir.library;
+
+import java.util.Scanner;
+
+import bsuir.library.bean.TypeBook;
+import bsuir.library.controller.Controller;
+import bsuir.library.service.exception.ServiceException;
+
+public class Main {
+
+	private static Controller controller = new Controller();
+	private static Scanner in = new Scanner(System.in);
+
+	public static void showMenuForUser() {
+		boolean isEndOfCycle = false;
+		String response = null;
+		String title = null;
+		String request = null;
+		int answer=0;
+		TypeBook type;
+		while (!isEndOfCycle) {
+			System.out.println("Меню: 1- Добавить новую книгу; 2- Показать каталог;"
+					+ "3-Поиск в каталоге; 4-Выслать книгу администаратору на почту;" + " 0 - Выход");
+			if (in.hasNext())
+				switch (in.next()) {
+				case "1":
+					System.out.println("Введите название книги!");
+
+					if (in.hasNext())
+						title = in.next();
+                    
+					System.out.println("Выберите тип книги! 1-Электронный; 2-Бумажный");
+					if (in.hasNext()) {
+						answer = Integer.parseInt(in.next());
+					}
+					switch (answer) {
+					case 1:
+						type = TypeBook.ELECTRONIC;
+						request="ADD_NEW_BOOK"+"|"+title+"|"+type.toString();
+						response = controller.doAction(request);
+						if (response != null) {
+							System.out.println(response);
+						}
+					case 2:
+						type = TypeBook.PAPER;
+						request="ADD_NEW_BOOK"+"|"+title+"|"+type.toString();
+						response = controller.doAction(request);
+						if (response != null) {
+							System.out.println(response);
+						}
+						break;
+					default:
+						System.out.println("Вы ввели некорректные данные!");
+					}
+					break;
+				case "2":
+					response = controller.doAction("GET_LIST_OF_BOOK");
+					if (response != null) {
+						System.out.println(response);
+					}
+					break;
+				case "3":
+					System.out.println("Введите название книги!");
+					if (in.hasNext())
+						title = in.nextLine();
+					request="GET_LIST_OF_BOOK"+"|"+title;
+					response = controller.doAction("SEARCH_BOOK");
+					if (response != null) {
+						System.out.println(response);
+					}
+					break;
+				case "4":
+					response = controller.doAction("SEND_BOOK_TO_ADMIN");
+					if (response != null) {
+						System.out.println(response);
+					}
+					break;
+				case "0": {
+					isEndOfCycle = true;
+					System.out.println("До свидания!");
+				}
+					break;
+				default: {
+					System.out.println("Неверное действие.Повторите попытку");
+
+				}
+					break;
+				}
+		}
+	}
+
+	public static void showMenuForAdmin() {
+		boolean isEndOfCycle = false;
+		String response = null;
+		while (!isEndOfCycle) {
+			System.out.println("Меню: 1- Добавить новую книгу; 2- Показать каталог;"
+					+ "3-Поиск в каталоге; 4-Добавить описание книги;  5-Изменить тип книги;"
+					+ "6-Удалить книгу; 0 - Выход");
+
+			switch (in.next()) {
+			case "1":
+				System.out.println(controller.doAction("ADD_NEW_BOOK"));
+
+				break;
+			case "2":
+				System.out.println(controller.doAction("GET_LIST_OF_BOOK"));
+				break;
+			case "3":
+				response = controller.doAction("SEARCH_BOOK");
+				if (response != null) {
+					System.out.println(response);
+				}
+				break;
+			case "4":
+				response = controller.doAction("ADD_DESCRIPTION_OF_BOOK");
+				if (response != null) {
+					System.out.println(response);
+				}
+				break;
+			case "5":
+				response = controller.doAction("CHANGE_TYPE_OF_BOOK");
+				if (response != null) {
+					System.out.println(response);
+				}
+			case "6":
+				response = controller.doAction("DELETE_BOOK");
+				if (response != null) {
+					System.out.println(response);
+				}
+				break;
+			case "0": {
+				isEndOfCycle = true;
+				System.out.println("До свидания!");
+			}
+				break;
+			default: {
+				System.out.println("Неверное действие.Повторите попытку");
+
+			}
+				break;
+			}
+		}
+
+	}
+
+	public static void main(String[] argv) throws ServiceException {
+
+		Scanner in = new Scanner(System.in);
+		Controller controller = new Controller();
+		boolean isEndOfCycle = false;
+		String response = null;
+		String request = null;
+		String login = null;
+		String password = null;
+		String email = null;
+
+		System.out.println("Выберите действие: 1- Аутентификация; 2- Регистрация; 0 - Выход");
+		while (!isEndOfCycle) {
+			if (in.hasNextLine()) {
+				String answer = in.nextLine();
+				if (!answer.equals(""))
+					switch (answer) {
+					case "1":
+						System.out.println("Введите логин!");
+						if (in.hasNext())
+							login = in.next();
+						System.out.println("Введите пароль!");
+						if (in.hasNext())
+							password = in.next();
+						request = "AUTHENTICATION" + "|" + login + "|" + password;
+						response = controller.doAction(request);
+						if (response != null) {
+							if (response == "admin") {
+								showMenuForAdmin();
+							} else {
+								System.out.println(response);
+								System.out.println("Выберите действие: 1- Аутентификация; 2- Регистрация; 0 - Выход");
+							}
+						} else {
+							showMenuForUser();
+						}
+						break;
+					case "2":
+						System.out.println("Введите логин!");
+						if (in.hasNext())
+							login = in.next();
+						System.out.println("Введите пароль!");
+						if (in.hasNext())
+							password = in.next();
+						System.out.println("Введите ваш email!");
+						if (in.hasNext())
+							email = in.next();
+						request = "REGISTRATION" + "|" + login + "|" + password + "|" + email;
+						response = controller.doAction(request);
+						if (response != null) {
+							System.out.println(response);
+							System.out.println("Выберите действие: 1- Аутентификация; 2- Регистрация; 0 - Выход");
+						} else {
+							showMenuForUser();
+						}
+						break;
+					case "0":
+						isEndOfCycle = true;
+						System.out.println("До свидания!");
+						break;
+					default:
+						System.out.println("Неверное действие.Повторите попытку");
+						System.out.println("Выберите действие: 1- Аутентификация; 2- Регистрация; 0 - Выход");
+						break;
+					}
+			}
+		}
+		in.close();
+
+	}
+}

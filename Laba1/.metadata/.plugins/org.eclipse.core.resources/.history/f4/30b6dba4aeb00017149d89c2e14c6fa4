@@ -1,0 +1,90 @@
+package bsuir.library.console.view;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
+public class ConsoleView {
+	private static Scanner in = new Scanner(System.in);
+
+	public void println(String response) {
+		if (response != null) {
+			System.out.print(response + "\n");
+		}
+	}
+
+	public String enteringLocationOfBook() {
+		System.out.print("Введите расположение книги,которую вы хотите отправить!\n");
+		return in.next();
+	}
+
+	public String enteringName() {
+		System.out.print("Введите логин.\n");
+		return in.next();
+	}
+
+	public String enteringEmail() {
+		System.out.print("Введите email.\n");
+		return in.next();
+	}
+
+	public String enteringPassword() {
+		System.out.print("Введите пароль.\n");
+		return in.next();
+	}
+
+	public String enteringNameOfBook() {
+		System.out.print("Введите название книги!\n");
+		return in.next();
+	}
+
+	public String enteringTypeOfBook() {
+		System.out.print("Выберите тип книги! 1-Электронный; 2-Бумажный\n");
+		return in.next();
+	}
+
+	public String enteringMainChoise() {
+		System.out.print("Введите действие: 1 - Aунтефикация 2 - Регистристрация 0 - Выход.\n");
+		return in.next();
+	}
+
+	public String wrongData() {
+		System.out.print("Вы ввели некорректные данные!\n");
+		return in.next();
+	}
+
+	public String enteringAdminMenu() {
+		System.out.print("Меню: 1- Добавить новую книгу; 2- Показать каталог;"
+				+ "3-Поиск в каталоге; 4-Добавить описание книги; " + "5-Удалить книгу; 0 - Выход\n");
+		return in.next();
+	}
+
+	public String enteringUserMenu() {
+		System.out.print("Меню: 1- Добавить новую книгу; 2- Показать каталог;"
+				+ "3-Поиск в каталоге; 4-Выслать книгу администаратору на почту;" + " 0 - Выход\n");
+		return in.next();
+	}
+
+	public void goodBye() {
+		System.out.println("До свидания!");
+	}
+
+	public void wrongAction() {
+		System.out.println("Неверное действие! Повторите попытку!");
+	}
+	
+	public String enteringDescription() throws IOException {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String description;
+		System.out.print("Введите описание!\n");
+		try {
+			description = br.readLine();
+		} catch (IOException e) {
+			throw new IOException(e);
+		}
+		return description;
+	}
+	
+}

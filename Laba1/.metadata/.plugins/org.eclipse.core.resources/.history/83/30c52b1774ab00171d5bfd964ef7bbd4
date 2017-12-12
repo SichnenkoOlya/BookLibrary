@@ -1,0 +1,39 @@
+package bsuir.library.service.impl;
+
+import java.util.ArrayList;
+
+import bsuir.library.bean.Book;
+import bsuir.library.dao.DAOBook;
+import bsuir.library.dao.DAOFactory;
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.service.LibraryService;
+import bsuir.library.service.exception.ServiceException;
+
+public class LibraryServiceImpl implements LibraryService{
+
+	@Override
+	public void addNewBook(String title, int typeOfBook) throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOBook bookDAO = daoFactory.getBookDAO();
+		
+		try {
+			bookDAO.addBook(title,typeOfBook);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+	@Override
+	public Book searchBook(String name) throws ServiceException{
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOBook bookDAO = daoFactory.getBookDAO();
+		Book book;
+		try {
+			book=bookDAO.searchBook(name);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}		
+		return book;
+	}
+
+
+}

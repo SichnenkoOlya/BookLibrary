@@ -1,0 +1,5 @@
+package bsuir.library.command.impl;
+
+public class DeleteBook {
+
+}

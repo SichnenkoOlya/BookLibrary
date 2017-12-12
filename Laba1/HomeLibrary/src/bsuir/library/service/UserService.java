@@ -1,0 +1,11 @@
+package bsuir.library.service;
+
+import bsuir.library.service.exception.ServiceException;
+
+public interface UserService {
+	int authenticate(String login, String password) throws ServiceException;
+	void registerUser(String login, String password,String email) throws ServiceException;
+	boolean isAdmin(String login, String password) throws ServiceException;
+	void sendBookToAdmin(String location, String login)  throws ServiceException;
+	void addAdmin(String login, String password,String email) throws ServiceException;
+}

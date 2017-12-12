@@ -1,0 +1,73 @@
+package bsuir.library.service.impl;
+
+import bsuir.library.dao.DAOFactory;
+import bsuir.library.dao.DAOUser;
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.domain.User;
+import bsuir.library.service.UserService;
+import bsuir.library.service.exception.ServiceException;
+
+public class UserServiceImpl implements UserService{
+
+	@Override
+	public int authenticate(String login, String password) throws ServiceException {
+				
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOUser userDAO = daoFactory.getUserDAO();
+		User user=null;
+		try {
+			 user=userDAO.authenticateUser(login, password);
+			
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		
+		return user.getAccessRights();
+		
+	}
+	@Override
+	public 	boolean isAdmin(String login, String password) throws ServiceException{
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOUser userDAO = daoFactory.getUserDAO();
+		
+		try {
+			User user=userDAO.authenticateUser(login, password);
+			if(user.getAccessRights()==1) {
+				return true;
+			}
+			
+			
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		return false;
+		
+	}
+	@Override
+	public void registerUser(String login, String password,String email) throws ServiceException{
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOUser userDAO = daoFactory.getUserDAO();
+		
+		try {
+			userDAO.registerUser(login, password,email);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+	
+	@Override
+	public void sendBookToAdmin(String login, String location) throws ServiceException{
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOUser userDAO = daoFactory.getUserDAO();
+		
+		try {
+			userDAO.sendBookToAdmin(location, null);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+
+}

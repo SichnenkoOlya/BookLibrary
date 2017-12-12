@@ -1,0 +1,33 @@
+package bsuir.library.command.impl;
+
+import java.util.ArrayList;
+
+import bsuir.library.bean.Book;
+import bsuir.library.command.Command;
+import bsuir.library.command.exception.CommandException;
+import bsuir.library.service.LibraryService;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.exception.ServiceException;
+
+public class GetListOfBook implements Command {
+
+
+	@Override
+	public String execute(String request) throws CommandException {
+		ServiceFactory servaceFactory = new ServiceFactory();
+		LibraryService libraryService = servaceFactory.getLiraryService();
+		String response=null;
+		try {
+			 ArrayList<Book>listOfBook= libraryService.getListOfBook();
+				for(Book element:listOfBook)
+				{
+					response+=element.getName()+" "+ element.getType()+"\r\n";
+				}
+		} catch (ServiceException e) {
+			return e.getLocalizedMessage();
+		}
+		
+		return response;
+	}
+
+}

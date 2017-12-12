@@ -1,0 +1,69 @@
+package bsuir.library.dao.impl;
+
+import java.util.ArrayList;
+
+import bsuir.library.bean.Book;
+import bsuir.library.bean.TypeBook;
+import bsuir.library.dao.DAOBook;
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.serialization.Serialization;
+
+public class DAOBookImpl implements DAOBook {
+
+	private ArrayList<Book> listOfBook;
+	private String fileDBName = "DB_FILE.txt";
+
+	public DAOBookImpl() {
+		listOfBook = new ArrayList<Book>();
+	}
+
+	@Override
+	public void addBook(String title, TypeBook typeOfBook) throws DAOException {
+
+		listOfBook = Serialization.deserialize(fileDBName);
+		Book book = new Book();
+		book.setName(title);
+		book.setType(typeOfBook);
+		boolean isInList = false;
+		for (Book element : listOfBook) {
+			if (element.getName().equalsIgnoreCase(book.getName()) && element.getType() == book.getType()) {
+				isInList = true;
+			}
+		}
+		if (isInList) {
+			throw new DAOException("Такая книга уже есть!");
+		}
+		listOfBook.add(book);
+		Serialization.serialize(listOfBook, fileDBName);
+
+	}
+
+	
+
+	@Override
+	public ArrayList<Book> searchBook(String name) throws DAOException {
+		listOfBook = Serialization.deserialize(fileDBName);
+		boolean isInList = false;
+		ArrayList<Book> listOfbook = new ArrayList<Book>();
+		for (Book element : listOfBook) {
+			if (element.getName().equalsIgnoreCase(name)) {
+				isInList = true;
+				listOfbook.add(element);
+			}
+		}
+		if (!isInList) {
+			throw new DAOException("Такой книги нет!");
+		}
+		return listOfbook;
+	}
+	
+	public ArrayList<Book> getListOfBook() throws DAOException{
+		listOfBook = Serialization.deserialize(fileDBName);
+		if (listOfBook==null) {
+			throw new DAOException("В библиотеке нет книг!");
+		}
+
+		return listOfBook;
+
+	}
+}

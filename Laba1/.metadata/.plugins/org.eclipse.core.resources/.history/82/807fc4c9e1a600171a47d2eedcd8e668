@@ -1,0 +1,87 @@
+package bsuir.library.logic.email;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Properties;
+/**
+ * Простой класс для отправки email сообщений
+ * @author Cloud
+ */
+public class EmailMessageSender {
+    private String mailServerHostName;
+    private int mailServerPort;
+    private String mailServerUsername;
+    private String mailServerPassword;
+    private String senderName;
+    private String senderEmail;
+ 
+    public EmailMessageSender(String mailServerHostName, int mailServerPort, String mailServerUsername,
+                              String mailServerPassword, String senderName, String senderEmail) {
+        this.mailServerHostName = mailServerHostName;
+        this.mailServerPort = mailServerPort;
+        this.mailServerUsername = mailServerUsername;
+        this.mailServerPassword = mailServerPassword;
+        this.senderName = senderName;
+        this.senderEmail = senderEmail;
+    }
+ 
+    private Properties emailProperties = new Properties();
+    {
+        //emailProperties нужно выставить в соответствии с требованиями используемого SMTP сервера
+        emailProperties.put("mail.transport.protocol", "smtp");
+        emailProperties.put("mail.smtp.auth", "true");
+        emailProperties.put("mail.smtp.starttls.enable", "true");
+        emailProperties.put("mail.smtp.starttls.required", "true");
+    }
+ 
+    public void sendEmail(String recipientEmail, String subject,
+                           String messageTextBody, String messageHtmlBody) throws MessagingException, UnsupportedEncodingException {
+        Session mailSession = Session.getInstance(emailProperties);
+        Transport transport = null;
+         
+        try {
+            //region Создание multipart контента
+            Multipart content = new MimeMultipart("alternative");
+            MimeBodyPart textPart = new MimeBodyPart();
+            textPart.setContent(messageTextBody, "text/plain");
+            content.addBodyPart(textPart);
+            MimeBodyPart htmlPart = new MimeBodyPart();
+            htmlPart.setContent(messageHtmlBody, "text/html;charset=\"UTF-8\"");
+            //endregion
+            //region Инициализация MimeMessage
+            MimeMessage message = new MimeMessage(mailSession);
+            message.setSubject(subject, StandardCharsets.UTF_8.name());
+            content.addBodyPart(htmlPart);
+            message.setContent(content);
+            message.setFrom(new InternetAddress(senderName, senderEmail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
+            //endregion
+            transport = mailSession.getTransport();
+            transport.connect(mailServerHostName, mailServerPort, mailServerUsername, mailServerPassword);
+            transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+        } finally {
+            if (transport != null) {
+                try {
+                    transport.close();
+                } catch (MessagingException e) {
+                    System.out.println("Ошибка при закрытии transport " + e.toString());
+                }
+            }
+        }
+    }
+ 
+    public static void main(String[] args) {
+        EmailMessageSender emailMessageSender = new EmailMessageSender("mailServerHostName", 587,
+                "mailServerUsername", "mailServerPassword", "senderName@gmail.com", "Sender Name");
+        try {
+            emailMessageSender.sendEmail("recipientEmail@gmail.com", "test subject", "test body",
+                    "html body");
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+}

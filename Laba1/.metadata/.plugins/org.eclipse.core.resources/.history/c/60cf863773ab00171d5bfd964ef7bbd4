@@ -1,0 +1,85 @@
+package bsuir.library.service.impl;
+
+import java.util.ArrayList;
+
+import javax.mail.Address;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
+import bsuir.library.bean.Book;
+import bsuir.library.bean.User;
+import bsuir.library.dao.DAOAdmin;
+import bsuir.library.dao.DAOBook;
+import bsuir.library.dao.DAOFactory;
+import bsuir.library.dao.DAOUser;
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.service.AdminService;
+import bsuir.library.service.exception.ServiceException;
+
+public class AdminServiceImpl extends UserServiceImpl implements AdminService {
+
+	public void deleteBook(Book book) throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOAdmin adminDAO = daoFactory.getAdminDAO();
+
+		try {
+			adminDAO.deleteBook(book);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public void authenticate(String login, String password) throws ServiceException {
+
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOUser userDAO = daoFactory.getUserDAO();
+
+		try {
+			User user = userDAO.authenticateUser(login, password);
+			if (user.getAccessRights() != 1) {
+				throw new DAOException("Вы не являетесь администаратором!");
+			}
+
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+
+	}
+
+	public void changeTypeOfBook(Book book, int typeOfBook) throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOAdmin adminDAO = daoFactory.getAdminDAO();
+
+		try {
+			adminDAO.changeTypeOfBook(book, typeOfBook);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	public void makeANewsletter(Book book) throws ServiceException {
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		DAOAdmin adminDAO = daoFactory.getAdminDAO();
+		ArrayList<User> listOfUser = getListOfUser();
+		Address[] adresses = new Address[listOfUser.size()];
+		int i = 0;
+		for (User user : listOfUser) {
+			if (user.getEmail() != null) {
+				try {
+					adresses[i] = new InternetAddress(user.getEmail());
+				} catch (AddressException e) {
+					e.printStackTrace();
+				}
+				i++;
+			}
+		}
+
+		try {
+			adminDAO.makeANewsletter(book);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+}

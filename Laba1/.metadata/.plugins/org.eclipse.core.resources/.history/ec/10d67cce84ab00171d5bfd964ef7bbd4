@@ -1,0 +1,10 @@
+package bsuir.library.service;
+
+import bsuir.library.bean.Book;
+import bsuir.library.service.exception.ServiceException;
+
+public interface LibraryService {
+	void addNewBook(String title, int typeOfBook) throws ServiceException;
+	Book searchBook(String name) throws ServiceException;
+
+}

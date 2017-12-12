@@ -1,0 +1,129 @@
+package bsuir.library;
+
+import java.util.Scanner;
+
+import bsuir.library.bean.Book;
+import bsuir.library.controller.Controller;
+import bsuir.library.service.AdminService;
+import bsuir.library.service.LibraryService;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.exception.ServiceException;
+
+public class Main {
+	/**
+	 * @param argv
+	 */
+	public static void main(String[] argv) throws ServiceException {
+
+		// ConsoleView console = new ConsoleView();
+		// console.getUser();
+
+		Scanner in = new Scanner(System.in);
+		ServiceFactory servaceFactory = new ServiceFactory();
+		LibraryService libraryService = servaceFactory.getLiraryService();
+		Controller controller = new Controller();
+
+		boolean isEndOsCycle = true;
+		boolean isAuthrinticated = false;
+
+		String response = null;
+		while (isEndOsCycle) {
+			System.out.println("Выберите действие: 1- Аутентификация; 2- Регистрация;"
+					+ "3-Войти в качестве администратора; 0 - Выход");
+			isAuthrinticated = true;
+			switch (in.nextLine()) {
+			case "1":
+				response = controller.doAction("AUTHENTICATION");
+				if (response != null) {
+					System.out.println(response);
+					isAuthrinticated = false;
+				} else {
+					isEndOsCycle = false;
+				}
+				break;
+			case "2":
+
+				response = controller.doAction("REGISTRATION");
+				if (response != null) {
+					System.out.println(response);
+					isAuthrinticated = false;
+				} else {
+					isEndOsCycle = false;
+				}
+				break;
+			case "3":
+				response = controller.doAction("AUTHENTICATE_AS_ADMIN");
+				if (response != null) {
+					System.out.println(response);
+					isAuthrinticated = false;
+				} else {
+					isEndOsCycle = false;
+				}
+
+				break;
+			case "0":
+				isEndOsCycle = false;
+				System.out.println("До свидания!");
+				isAuthrinticated = false;
+
+				break;
+			default:
+				System.out.println("Неверное действие.Повторите попытку");
+				break;
+			}
+		}
+
+		isEndOsCycle = true;
+		if (isAuthrinticated) {
+			while (isEndOsCycle) {
+				System.out.println("Меню: 1- Добавить новую книгу; 2- Показать каталог;"
+						+ "3-Поиск в каталоге; 4-Выслать книгу администаратору на почту;" + " 0 - Выход");
+
+				switch (in.next()) {
+				case "1":
+					System.out.println(controller.doAction("ADD_NEW_BOOK"));
+
+					break;
+				case "2":
+					System.out.println(controller.doAction("GET_LIST_OF_BOOK"));
+					break;
+				case "3": 
+					response = controller.doAction("SEARCH_BOOK");
+					if (response != null) {
+						System.out.println(response);
+					} 
+				
+					break;
+				case "4": {
+
+					// userServise.sendBookToAdmin(userService., location);
+					System.out.println("Введите логин!");
+					String login = null;
+					String password = null;
+					if (in.hasNext())
+						login = in.next();
+					System.out.println("Введите пароль!");
+					if (in.hasNext())
+						password = in.next();
+
+				}
+					break;
+				case "0": {
+					isEndOsCycle = false;
+					System.out.println("До свидания!");
+				}
+					break;
+				default: {
+					System.out.println("Неверное действие.Повторите попытку");
+
+				}
+					break;
+				}
+			}
+
+		}
+
+		in.close();
+
+	}
+}

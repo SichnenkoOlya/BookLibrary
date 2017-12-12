@@ -1,0 +1,34 @@
+package bsuir.library.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import bsuir.library.command.Command;
+import bsuir.library.command.impl.AddNewBook;
+import bsuir.library.command.impl.AuthenticateAsAdmin;
+import bsuir.library.command.impl.Authentication;
+import bsuir.library.command.impl.GetListOfBook;
+import bsuir.library.command.impl.Registration;
+import bsuir.library.command.impl.SearchBook;
+
+final class CommandProvider {
+	
+	final private Map<String, Command> commands = new HashMap<>();
+
+	CommandProvider() {
+		commands.put("AUTHENTICATION", new Authentication());
+		commands.put("REGISTRATION", new Registration());
+		commands.put("AUTHENTICATE_AS_ADMIN", new AuthenticateAsAdmin());
+		commands.put("ADD_NEW_BOOK", new AddNewBook());
+		commands.put("SEARCH_BOOK", new SearchBook());
+		commands.put("SEND_BOOK_TO_ADMIN_ON_EMAIL", new SearchBook());
+		commands.put("SEND_DESCRIPTION_TO_USERS", new SearchBook());
+		
+	}
+
+	Command getCommand(String commandName) {
+		Command command = commands.get(commandName);
+		return command;
+	}
+
+}

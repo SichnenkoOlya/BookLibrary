@@ -1,0 +1,73 @@
+package bsuir.library.console.view;
+
+import java.util.Scanner;
+
+public class ConsoleView {
+	private static Scanner in = new Scanner(System.in);
+
+	public void println(String response) {
+		if (response != null) {
+			System.out.print(response + "\n");
+		}
+	}
+
+	public String enteringLocationOfBook() {
+		System.out.print("Введите расположение книги,которую вы хотите отправить!\n");
+		return in.next();
+	}
+
+	public String enteringName() {
+		System.out.print("Введите логин.\n");
+		return in.next();
+	}
+
+	public String enteringEmail() {
+		System.out.print("Введите email.\n");
+		return in.next();
+	}
+
+	public String enteringPassword() {
+		System.out.print("Введите пароль.\n");
+		return in.next();
+	}
+
+	public String enteringNameOfBook() {
+		System.out.print("Введите название книги!\n");
+		return in.next();
+	}
+
+	public int enteringTypeOfBook() {
+		System.out.print("Выберите тип книги! 1-Электронный; 2-Бумажный\n");
+		return in.nextInt();
+	}
+
+	public int enteringMainChoise() {
+		System.out.print("Введите действие: 1 - Aунтефикация 2 - Регистристрация 0 - Выход.\n");
+		return in.nextInt();
+	}
+
+	public String wrongData() {
+		System.out.print("Вы ввели некорректные данные!\n");
+		return in.next();
+	}
+
+	public int enteringAdminMenu() {
+		System.out.print("Введите действие: 1 - Aунтефикация 2 - Регистристрация 0 - Выход.\n");
+		return in.nextInt();
+	}
+
+	public int enteringUserMenu() {
+		System.out.print("Меню: 1- Добавить новую книгу; 2- Показать каталог;"
+				+ "3-Поиск в каталоге; 4-Выслать книгу администаратору на почту;" + " 0 - Выход\n");
+		return in.nextInt();
+	}
+
+	public void goodBye() {
+		System.out.println("До свидания!");
+	}
+
+	public void wrongAction() {
+		System.out.println("До свидания!");
+	}
+
+}

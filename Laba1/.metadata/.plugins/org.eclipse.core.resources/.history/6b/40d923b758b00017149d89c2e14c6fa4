@@ -1,0 +1,39 @@
+package bsuir.library.console.view;
+
+import java.util.Scanner;
+
+public class ConsoleView {
+	private static Scanner in = new Scanner(System.in);
+
+	public void println(String response) {
+		System.out.print(response+"\n");
+	}
+
+	public String enteringName() {
+		System.out.print("Введите логин.\n");
+		return in.next();
+	}
+	
+	public String enteringEmail() {
+		System.out.print("Введите email.\n");
+		return in.next();
+	}
+
+	public String enteringPassword() {
+		System.out.print("Введите пароль.\n");
+		return in.next();
+	}
+
+	public int enteringMainChoise() {
+		System.out.print("Введите действие: 1 - Aунтефикация 2 - Регистристрация 0 - Выход.\n");
+		return in.nextInt();
+	}
+
+	public void goodBye() {
+		System.out.println("До свидания!");
+	}
+	
+	public void wrongAction() {
+		System.out.println("До свидания!");
+	}
+}

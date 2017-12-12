@@ -1,0 +1,34 @@
+package bsuir.library.command.impl;
+
+import java.util.Scanner;
+
+import bsuir.library.command.Command;
+import bsuir.library.command.exception.CommandException;
+import bsuir.library.service.AdminService;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.UserService;
+import bsuir.library.service.exception.ServiceException;
+
+public class SendDescriptionToUsers implements Command {
+
+	private Scanner in;
+
+	@Override
+	public String execute(String request) throws CommandException {
+		in = new Scanner(System.in);
+		ServiceFactory servaceFactory = new ServiceFactory();
+		AdminService adminService = servaceFactory.getAdminService();
+		System.out.println("¬ведите расположение книги,которую вы хотите отправить!");
+		String location = null;
+		if (in.hasNext())
+			location = in.nextLine();
+		try {
+			
+			adminService.makeANewsletter(null);
+		} catch (ServiceException e) {
+			return e.getLocalizedMessage();
+		}
+		return null;
+	}
+
+}

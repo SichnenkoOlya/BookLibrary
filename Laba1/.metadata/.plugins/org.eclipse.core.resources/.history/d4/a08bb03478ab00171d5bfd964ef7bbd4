@@ -1,0 +1,12 @@
+package bsuir.library.dao;
+
+import bsuir.library.bean.Book;
+import bsuir.library.dao.exception.DAOException;
+
+
+public interface DAOAdmin extends DAOUser {
+	 void deleteBook(Book book) throws DAOException;
+	 void changeTypeOfBook(Book book, int typeOfBook) throws DAOException;
+	 boolean addAdmin(String login, String password,String email) throws DAOException;
+	 void addDescriptionOfBook(Book book, String description)throws DAOException;
+}

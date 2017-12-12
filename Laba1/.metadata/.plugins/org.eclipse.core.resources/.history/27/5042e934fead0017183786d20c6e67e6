@@ -1,0 +1,21 @@
+package bsuir.library.dao.impl;
+
+import java.util.ArrayList;
+import javax.mail.Address;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
+import bsuir.library.dao.DAOAdmin;
+import bsuir.library.dao.exception.DAOException;
+import bsuir.library.domain.Book;
+import bsuir.library.domain.User;
+import bsuir.library.email.EmailSender;
+import bsuir.library.serialization.Serialization;
+
+public class DAOAdminImpl extends DAOUserImpl implements DAOAdmin {
+	private ArrayList<Book> listOfBook;
+	private String fileDBName = "DB_FILE.txt";
+
+
+
+}

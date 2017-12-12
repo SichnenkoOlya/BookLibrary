@@ -1,0 +1,71 @@
+package bsuir.library.domain;
+
+import java.io.Serializable;
+
+
+public class Book implements Serializable {
+
+	public enum TypeBook {
+		ELECTRONIC, PAPER
+	}
+	private static final long serialVersionUID = 2785183925079780970L;
+
+	private String name;
+	private TypeBook typeBook;
+	private String description;
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getType() {
+		return typeBook.toString();
+	}
+
+	public void setType(TypeBook typeBook) {
+
+		this.typeBook = typeBook;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		Book that = (Book) o;
+
+		if (typeBook != that.typeBook) {
+			return false;
+		}
+		return !(name != null ? !name.equals(that.name) : that.name != null);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = name != null ? name.hashCode() : 0;
+		result = 31 * result + 13;
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Book{" + "name='" + name + '\'' + ", typeBook=" + typeBook + '}';
+	}
+}

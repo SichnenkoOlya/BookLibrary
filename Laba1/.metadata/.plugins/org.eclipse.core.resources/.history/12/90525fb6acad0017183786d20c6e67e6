@@ -1,0 +1,46 @@
+package bsuir.library.command.impl;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import bsuir.library.bean.Book;
+import bsuir.library.command.Command;
+import bsuir.library.command.exception.CommandException;
+import bsuir.library.service.AdminService;
+import bsuir.library.service.LibraryService;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.exception.ServiceException;
+
+public class ChangeTypeOfBook implements Command {
+
+	private Scanner in;
+
+	@Override
+	public String execute(String request) throws CommandException {
+
+		in = new Scanner(System.in);
+		ServiceFactory servaceFactory = new ServiceFactory();
+		AdminService adminService;
+        LibraryService libraryService=servaceFactory.getLiraryService();
+		System.out.println("Введите название книги!");
+		String title = null;
+		if (in.hasNext())
+			title = in.next();
+		System.out.println("Выберите новый тип книги!1-Электронная; 2- Печатная");
+		String typeOfBook = null;
+		if (in.hasNext())
+			typeOfBook = in.next();
+		adminService = servaceFactory.getAdminService();
+
+		try {
+			ArrayList<Book> listOfBook = libraryService.searchBook(title);
+			for (Book book : listOfBook) {
+				adminService.changeTypeOfBook(book,Integer.parseInt(typeOfBook));
+			}
+			
+		} catch (ServiceException e) {
+			return e.getLocalizedMessage();
+		}
+		return null;
+	}
+}

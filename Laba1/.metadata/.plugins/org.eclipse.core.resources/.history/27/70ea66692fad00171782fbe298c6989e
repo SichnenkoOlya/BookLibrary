@@ -1,0 +1,40 @@
+package bsuir.library.command.impl;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import bsuir.library.bean.Book;
+import bsuir.library.command.Command;
+import bsuir.library.command.exception.CommandException;
+import bsuir.library.service.LibraryService;
+import bsuir.library.service.ServiceFactory;
+import bsuir.library.service.exception.ServiceException;
+
+public class SearchBook implements Command {
+
+	private Scanner in;
+
+	@Override
+	public String execute(String request) throws CommandException {
+		in = new Scanner(System.in);
+		ServiceFactory servaceFactory = new ServiceFactory();
+		LibraryService libraryService = servaceFactory.getLiraryService();
+		System.out.println("Введите название книги!");
+		String title = null;
+		if (in.hasNext())
+			title = in.nextLine();
+		ArrayList<Book> book = null;
+		try {
+			book = libraryService.searchBook(title);
+		} catch (ServiceException e) {
+			return e.getLocalizedMessage();
+		}
+		if (book == null) {
+			System.out.println("Такой книги нет:(");
+		} else {
+			System.out.println("Такой книга есть в библиотеке:(");
+		}
+		return null;
+	}
+
+}

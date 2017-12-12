@@ -1,0 +1,14 @@
+package bsuir.library.dao;
+
+import java.util.ArrayList;
+
+import bsuir.library.bean.Book;
+import bsuir.library.dao.exception.DAOException;
+
+public interface DAOBook {
+	
+	 void addBook(String title, int typeOfBook) throws DAOException;
+	 Book searchBook(String name) throws DAOException;
+	 ArrayList<Book> getListOfBook() throws DAOException;
+	
+}

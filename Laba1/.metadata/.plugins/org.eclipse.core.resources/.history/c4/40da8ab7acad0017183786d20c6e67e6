@@ -1,0 +1,5 @@
+package bsuir.library.bean;
+
+public enum TypeBook {
+	ELECTRONIC, PAPER
+}

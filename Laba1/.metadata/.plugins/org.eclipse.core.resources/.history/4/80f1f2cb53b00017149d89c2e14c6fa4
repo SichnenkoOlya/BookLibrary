@@ -1,0 +1,5 @@
+package bsuir.library.console.view;
+
+public class IndexNumberFormatter {
+
+}

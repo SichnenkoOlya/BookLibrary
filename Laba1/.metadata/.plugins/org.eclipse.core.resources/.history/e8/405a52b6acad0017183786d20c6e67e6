@@ -1,0 +1,17 @@
+package bsuir.library.service;
+
+import java.util.ArrayList;
+
+import bsuir.library.bean.Book;
+import bsuir.library.service.exception.ServiceException;
+
+public interface AdminService extends UserService {
+	void deleteBook(Book book) throws ServiceException;
+
+	void changeTypeOfBook(Book book, int typeOfBook) throws ServiceException;
+	
+	void addAdmin(String login, String password,String email) throws ServiceException;
+	
+	void addDescriptionOfBook(ArrayList<Book> book, String description)throws ServiceException;
+
+}
